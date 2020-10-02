@@ -27,7 +27,6 @@ class Service
 		$this->data = array();
 	}
 
-	//Trae todos los usuarios registrados
 	public function getServices():?array
 	{
 		$rows = $this->db->get_results("SELECT * FROM servicios T0 ");
@@ -35,7 +34,6 @@ class Service
 		return $rows;
 	}
 
-	//Obtiene el usuario por IdUsuario
 	public function getServiceById($id):?OBJECT
 	{
 		if( isIntN($id) ){
@@ -101,8 +99,6 @@ class Service
 		return $result;
 	}
 
-
-
 	private function setUpdate($array):bool
 	{
 		$stored = $this->getServiceById($array['Id']);
@@ -134,7 +130,6 @@ class Service
 		}
 	}
 
-	//Modifica el usuario
 	private function editData($array):bool
 	{
 		if( $this->setUpdate($array) ){//verifica si hay cambios para aplicar
@@ -158,16 +153,11 @@ class Service
 		return $result;
 	}
 
-	/*Borra el usuario por id. Al borrar el registro de empreado tambien se elimina se elimina de:
-	* usuario_acceso, usuario_config, permiso
-	*/
 	private function deleteUser( $id ):bool
 	{
-		$result = true;
 		if ( isIntN($id) ) {
-			$query0 = "DELETE FROM usuario WHERE Id_Usuario = '$id' ";
+			$query0 = "DELETE FROM servicios WHERE Id_Servicio = '$id' ";
 			if( $this->db->query($query0) ){
-				//new Sincronizacion($queryDelete3,1,"",$codigo_Usuario);
 				$result = true;
 			}else{
 				$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.';
@@ -183,7 +173,6 @@ class Service
 		return $result;
 	}
 
-	//Desactiva el acceso al sistema al usuario
 	public function disableEnable($id,$option=null):bool
 	{
 		if ( isIntN($id) ) {
@@ -194,7 +183,7 @@ class Service
 			if( $this->db->query($query0) ){
 				$result = true;
 			}else{
-				$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.'.$query0;
+				$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.';
 				$this->type = 'red';
 				$result = false;
 			}
