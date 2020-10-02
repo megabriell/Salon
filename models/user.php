@@ -142,10 +142,11 @@ class User
 		$this->data['address'] = (!empty($post['address']))? camelCase($this->db->escape( $post['address'] )) : '';
 
 		if ( isset($this->data['Id'])  && isset($this->data['IdUser']) ) {
-			if( $this->editUser($this->data) ) return true; //Update User
+			return $this->editUser($this->data) ; //Update User
+		}else{
+			return $this->newUser($this->data);//New User
 		}
-
-		if( $this->newUser($this->data) ) return true;//New User
+		
 	}
 
 	//Crea un nuevo usuario
