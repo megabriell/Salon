@@ -1,7 +1,7 @@
 <?php
 /**
  * 
- * Clase para obtner informacion de usuario y agregar un nuevo usuario
+ * Clase para obtner informacion de servicios y agregar un nuevo servicio
  *  
  * @author Manuel Gabriel <ingmanuelgabriel@gmail.com|ingmanuelgabriel@hotmail.com>
  * @copyright Copyright (c) 2020, Manuel Gabriel | WELMASTER
@@ -27,9 +27,16 @@ class Service
 		$this->data = array();
 	}
 
+	public function getServicesAct():?array
+	{
+		$rows = $this->db->get_results("SELECT * FROM servicios WHERE Estado = 1");
+		if ( !$rows ) return NULL;
+		return $rows;
+	}
+
 	public function getServices():?array
 	{
-		$rows = $this->db->get_results("SELECT * FROM servicios T0 ");
+		$rows = $this->db->get_results("SELECT * FROM servicios ");
 		if ( !$rows ) return NULL;
 		return $rows;
 	}
@@ -73,7 +80,7 @@ class Service
 			}
 		}
 		if (isset($post['state'])) {
-			$this->data['state'] = ( !empty($post['state']) )? $this->db->escape($post['state']) : '';
+			$this->data['state'] = ( $post['state'] )? 1 : 0;
 		}
 
 		if ( !empty($option) ) {
@@ -195,8 +202,5 @@ class Service
 		}
 		return $result;
 	}
-
-
-	
 }
 ?>
