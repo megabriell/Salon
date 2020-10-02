@@ -5,7 +5,7 @@
                 <form class="form-horizontal" id="dataFrm0" autocomplete="off">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="nameU" class="col-sm-3 control-label">Descripción </label>
+                            <label for="descripction" class="col-sm-3 control-label">Descripción </label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="descripction" name="descripction" placeholder="Descripción del servicio" maxlength="50">
                             </div>
