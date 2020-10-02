@@ -16,7 +16,7 @@
                 <form class="form-horizontal" id="dataFrm0" autocomplete="off">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="nameU" class="col-sm-3 control-label">Descripción </label>
+                            <label for="descripction" class="col-sm-3 control-label">Descripción </label>
                             <div class="col-sm-9">
                                 <input type="hidden" name="id" id="id" value="<?php echo $id?>">
                                 <input type="text" class="form-control" id="descripction" name="descripction" placeholder="Descripción del servicio" maxlength="50" value="<?php echo $data->Descripcion ?>">
@@ -26,14 +26,14 @@
                         <div class="form-group">
                             <label for="cost" class="col-sm-3 control-label">Costo</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control" id="cost" name="cost" placeholder="Costo del servicio (Q)" step="any" maxlength="10" value="<?php echo $data->Precio ?>">
+                                <input type="number" class="form-control" id="cost" name="cost" placeholder="Costo del servicio (Q)" step="any" maxlength="10" value="<?php echo $data->Costo ?>">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="price" class="col-sm-3 control-label">Precio</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control" id="price" name="price" placeholder="Precio del servicio (Q)" step="any" maxlength="10" value="<?php echo $data->Costo ?>">
+                                <input type="number" class="form-control" id="price" name="price" placeholder="Precio del servicio (Q)" step="any" maxlength="10" value="<?php echo $data->Precio ?>">
                             </div>
                         </div>
 
