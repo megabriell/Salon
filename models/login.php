@@ -71,7 +71,10 @@ class Login {
                         $inCompany = $this->db->infoCompany();
                         setcookie("_data1C", json_encode($inCompany),'', "/");//Create-Cookie data of company
 
-                        //new infoDevice($_SESSION['Id_Usuario'],'Inicio de Sesion');
+                        include_once dirname(__file__,2)."/models/permission.php";
+                        $permisos = new Permission();
+                        $permisoUsuario = $permisos->getPermissions($user->Id_Usuario_Acceso);
+                        setcookie("_data2P", json_encode($permisoUsuario),'', "/");//Create-Cookie data of menu
 
                         return true;
                     } else {
