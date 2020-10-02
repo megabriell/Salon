@@ -1,0 +1,16 @@
+.print>tbody>tr>td, .print>thead>tr>th, .print>tfoot>tr>th{
+	padding: 2px !important;
+}
+.notdisplay{
+	display: none;
+}
+
+@page {
+	/* Para desabilitar el encabezado y pie de la pagina antes de imprimir */
+size:  auto;   /* auto es el valor inicial */
+margin: 0mm;  /* afecta el margen en la configuración de impresión */
+}
+
+.invoice{
+	margin: 15mm;
+}

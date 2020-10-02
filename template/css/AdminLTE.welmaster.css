@@ -1,0 +1,115 @@
+/*   It is a extension of AdminLTE v2.3.8
+ *   Author: Manuel Gabriel
+ *	 Website: WelMaster <http://welmaster.com>
+*/
+.wrapper{
+  position: inherit !important;
+}
+.user-panel > .image > img {
+    max-width: none;
+}
+
+.user-panel > .info {
+    text-align: center;
+    position: initial;
+    left: 0;
+}
+
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header {
+    height: auto;
+    background-size: cover ;
+    }
+
+ .skin-black-light .sidebar-menu > li.active > a {
+    border-left-color: #ed1b24;
+}
+
+
+
+input[type=number] {
+	-moz-appearance: textfield;
+	appearance: textfield;
+	margin: 0; 
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+	-webkit-appearance: none; 
+	margin: 0; 
+}
+
+/* Removes the clear button from date inputs */
+input[type="date"]::-webkit-clear-button {
+    display: none;
+}
+
+/* Removes the spin button */
+input[type="date"]::-webkit-inner-spin-button { 
+    display: none;
+}
+
+
+.mark, mark {
+    background-color:rgb(159, 205, 255);
+}
+
+
+.circle_small {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 25px;
+}
+
+.loader_small {
+  width: calc(100% - 0px);
+  height: calc(100% - 0px);
+  border: 5px solid #d2d6de;
+  border-top: 5px solid #ed1b24;
+  border-radius: 50%;
+  animation: rotate 5s linear infinite;
+  padding: 8px;
+}
+/*
+<div class="circle_small center-block" align="center">
+   Cargando...
+  <div class="loader_small">
+    <div class="loader_small">
+        <div class="loader_small">
+           <div class="loader_small">
+              
+           </div>
+        </div>
+    </div>
+  </div>
+</div>
+*/
+.circle_little {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 15px;
+}
+
+.loader_little {
+  width: calc(100% - 0px);
+  height: calc(100% - 0px);
+  border: 4px solid #162534;
+  border-top: 4px solid #09f;
+  border-radius: 50%;
+  animation: rotate 5s linear infinite;
+}
+/*
+<div class="circle_little center-block" align="center">
+   Cargando...
+  <div class="loader_little">
+    <div class="loader_little">
+        <div class="loader_little">
+           <div class="loader_little">
+              
+           </div>
+        </div>
+    </div>
+  </div>
+</div>
+*/
+@keyframes rotate {
+  100% {transform: rotate(360deg);}
+} 

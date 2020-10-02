@@ -1,0 +1,3 @@
+initializing http://bootstrapvalidator.votintsev.ru/api/
+validators http://bootstrapvalidator.votintsev.ru/validators/
+settings http://bootstrapvalidator.votintsev.ru/settings/

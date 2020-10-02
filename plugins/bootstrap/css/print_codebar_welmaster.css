@@ -1,0 +1,40 @@
+
+.notdisplay{
+	display: none;
+}
+
+@page {
+	/* Para desabilitar el encabezado y pie de la pagina antes de imprimir */
+size:  21.59cm 27.94cm;   /* auto es el valor inicial */
+margin: 1.2cm 0.5cm ;  /* afecta el margen en la configuración de impresión */
+}
+
+div {
+	page-break-before :always;
+}
+
+
+.barcode{
+	width: 6.8cm !important;
+	height: 2.6cm !important;
+	margin-left: 0.4cm;
+	//border: 1px solid;
+	//border-radius: 15px;
+}
+
+.barcode-border{
+	width: 6.8cm !important;
+	height: 2.6cm !important;
+	margin-left: 0.4cm;
+	border: 1px solid;
+	border-radius: 15px;
+}
+
+.barcodeFoot{
+	margin-top: -14px;z-index: 2;
+
+}
+
+.barcodeImg {
+    z-index: -1; margin-top: 14px
+}
