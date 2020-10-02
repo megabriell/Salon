@@ -32,7 +32,13 @@ class Permission
 	{	
 		if( isIntN($id) )
 		{
-			$rows = $this->db->get_results("SELECT * FROM permiso T0 WHERE T0.Id_Usuario_Acceso = '$id' ");
+			$rows = $this->db->get_results("SELECT T0.Descripcion, T0.Icono,
+				T1.Descripcion AS Descripcion2, T1.Id_Pagina, T1.Id_Menu_Sitio, T1.Nombre
+				FROM menu_sitio T0
+				INNER JOIN menu_pagina T1 ON (T0.Id_Menu_Sitio = T1.Id_Menu_Sitio)
+				LEFT JOIN permiso T2 ON (T1.Id_Pagina = T2.Id_Pagina)
+					WHERE T2.Id_Usuario_Acceso = '$id'
+					ORDER BY T0.Posicion ");
 			if( !$rows )return NULL;
 			return $rows;
 		}else{

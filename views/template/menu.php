@@ -21,36 +21,30 @@
 				</a>
 			</li>
 			<?php
-				/*
-					SELECT * FROM pv_menu_sitio T0
-					INNER JOIN pv_pagina T1 ON (T0.Id_Menu_Sitio = T1.Id_Menu_Sitio)
-					LEFT JOIN pv_permiso T2 ON (T1.Id_Pagina = T2.Id_Pagina)
-					WHERE T2.`Id_Usuario` = 8
-				*/
-				include_once './models/menu.php';
-				$menu = new Menu();
-				$arrayMenu = $menu->readMenu();
-				$menu = $arrayMenu[0];//get data of cache
-				$SubMenu = $arrayMenu[1];//get data of cache
-				
-				foreach ($menu as $key => $value) {
+				$menu = json_decode( $_COOKIE["_data2P"] ,true);
+				$mParent = array_values(array_unique(array_column($menu, 'Descripcion')));
+				$icons = array_values(array_unique(array_column($menu, 'Icono')));
+				foreach ($mParent as $key => $val0) {
 					echo '<li class="treeview">
-							<a href="">
-								<i class="fa '.$value['icon'].'"></i><span>'.$key.'</span>
-								<span class="pull-right-container">
-									<i class="fa fa-angle-left pull-right"></i>
-								</span>
-							</a>
-							<ul class="treeview-menu">';
-
-					unset($value["icon"]);//elimina elemento de arreglo
-					foreach ($value as $subKey => $subVal) {
-						if($SubMenu){
-							$page = $SubMenu[$subKey]["Nombre"];
-							echo '<li><a class="menuItem" href="'.$page.'"><i class="fa fa-circle-o"></i>'.$subVal.'</a></li>';
+						<a href="">
+							<i class="fa '.$icons[$key].'"></i><span>'.$val0.'</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">';
+					foreach ($menu as $val1) {
+						if ($val0 == $val1['Descripcion']) {
+							echo '<li>
+								<a class="menuItem" href="'.$val1['Nombre'].'">
+									<i class="fa fa-circle-o"></i>'.$val1['Descripcion2'].'
+								</a>
+							</li>';
 						}
 					}
-					echo '</ul></li>';
+					echo "
+					</ul>
+					</li>";
 				}
 			?>
 		</ul>
