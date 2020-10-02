@@ -5,7 +5,6 @@
 	$timeMessage = '';
 	$typeMessage = '';//type of menssage: red|green|orange|blue|purple|dark
 
-	//Request: creacion de nuevo usuario
 	if(isset($_POST['create']))
 	{
 		header("content-type: application/javascript");//tipo de respuesta devuelta: javascript
@@ -35,7 +34,6 @@
 		});";
 	}
 
-	//Request: editar usuario
 	if(isset($_POST['edit']))
 	{
 		header("content-type: application/javascript");//tipo de respuesta devuelta: javascript
@@ -66,7 +64,6 @@
 		});";
 	}
 
-	//Request: desactiva al usuario
 	if(isset($_POST['disable']))
 	{
 		header("content-type: application/javascript");//tipo de respuesta devuelta: javascript
@@ -95,7 +92,6 @@
 		});";
 	}
 
-	//Request: Activa al usuario
 	if(isset($_POST['enable']))
 	{
 		header("content-type: application/javascript");//tipo de respuesta devuelta: javascript
@@ -124,7 +120,6 @@
 		});";
 	}
 
-	///Request: Otiene datos para tabla respuesta: json
 	if ( isset($_POST['getData']) ) {
 		header('Content-Type: application/json');
 	    $rows = $service->getServices();
