@@ -123,8 +123,8 @@
 	if ( isset($_POST['getData']) ) {
 		header('Content-Type: application/json');
 	    $rows = $service->getServices();
+	    $json['data']=[];
 	    if ($rows) {
-	        $json['data']=[];
 	        foreach ( $rows as $row ){
 
 	            $id = $row->Id_Servicio;
