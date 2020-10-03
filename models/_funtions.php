@@ -52,7 +52,7 @@
 		return $estado;
 	}
 
-	function stateVar2($value){
+	function stateVar2($value){//estado 2 variables
 		switch ($value) {
 			case 0:
 			$estado = 'Inactivo';
@@ -63,6 +63,48 @@
 			default:
 			$estado = 'No Definido';
 			break;
+		}
+		return $estado;
+	}
+
+	function stateColorVar5($value){//estado 5 variables
+		switch ($value) {
+			case 0:
+				$estado = 'event-warning';//pendiente
+				break;
+			case 1:
+				$estado = 'event-success';//completado
+				break;
+			case 2:
+				$estado = 'event-important';//Cancelado
+				break;
+			case 2:
+				$estado = 'event-special';//Pospuesto
+				break;
+			default:
+				$estado = 'event-info';
+				break;
+		}
+		return $estado;
+	}
+
+	function stateVar5($value){//estado 5 variables
+		switch ($value) {
+			case 0:
+				$estado = 'pendiente';
+				break;
+			case 1:
+				$estado = 'completado';
+				break;
+			case 2:
+				$estado = 'Cancelado';
+				break;
+			case 2:
+				$estado = 'Pospuesto';
+				break;
+			default:
+				$estado = 'No Definido';
+				break;
 		}
 		return $estado;
 	}
