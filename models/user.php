@@ -27,6 +27,21 @@ class User
 		$this->data = array();
 	}
 
+	public function getTypeUsers($type):?array
+	{	
+		if( isIntN($type) ){
+			$rows = $this->db->get_results("SELECT T0.Id_Usuario, T0.Nombre, T0.Apellido, T0.Telefono, T0.Correo, T0.NIT, T0.Direccion
+				FROM usuario T0 
+				INNER JOIN usuario_acceso T1 ON (T0.Id_Usuario = T1.Id_Usuario)
+				INNER JOIN usuario_config T2 ON (T1.Id_Usuario_Acceso = T2.Id_Usuario_Acceso) 
+				WHERE T1.Sistema = '$type' AND T2.Estado = 1 ");
+			if ( !$rows ) return NULL;
+			return $rows;
+		}else{
+			return NULL;
+		}
+	}
+
 	//Trae todos los usuarios registrados
 	public function getUsers():?array
 	{
