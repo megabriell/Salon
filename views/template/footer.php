@@ -37,6 +37,9 @@
 <link rel="stylesheet" href="../plugins/Jquery-confirm/jquery-confirm.min.css">
 <script src="../plugins/Jquery-confirm/jquery-confirm.min.js"></script>
 
+<!-- moment -->
+<script type="text/javascript" src="../plugins/moment/moment.min.js"></script>
+
 <!-- Scroll to element -->
 <script type="text/javascript" src="../plugins/jquery.scrollTo/jquery.scrollTo.js"></script>
 
