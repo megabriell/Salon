@@ -1,8 +1,6 @@
 <link rel="stylesheet" href="./plugins/calendar/css/calendar.css">
 <script src="./plugins/calendar/js/calendar.js"></script>
 <script type="text/javascript" src="./plugins/calendar/js/es-ES.js"></script>
-
-
 <script src="./plugins/underscore/underscore-min.js"></script>
 
 <div class="row">
@@ -38,14 +36,14 @@
                 </div>
 
                 <!--ventana modal para el calendario-->
-                <div class="modal fade" id="events-modal">
+                <div class="modal fade" id="events-modal" data-keyboard="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-body" style="height: 400px">
-                                <p>One fine body&hellip;</p>
+                            <div class="modal-header">
+                                <button type="button" class="btn btn-default pull-right btn-sm" data-dismiss="modal" title="Cerrar">X</button>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            <div class="modal-body">
+                                <p>One fine body&hellip;</p>
                             </div>
                         </div><
                     </div>
@@ -55,8 +53,10 @@
         </div>
     </div>
 </div>
+<div id="eventlist"></div>
 <div id="subContent"></div>
 
 <script type="text/javascript">
+    loadCSS('/views/date/tmpls/card.css'); //css
     $.getScript("./views/date/js/script.js");
 </script>
