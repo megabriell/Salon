@@ -2,11 +2,12 @@
 <div id="cal-slide-content" class="cal-event-list">
 	<ul class="unstyled list-unstyled">
 		<% _.each(events, function(event) { %>
-			<li>
-				<span class="pull-left event <%= event['class'] %>"></span>&nbsp;
-				<a href="<%= 'javascript:void(0)' %>" onclick="viewDate(<%= event.id %>)" data-event-id="<%= event.id %>" data-event-class="<%= event['class'] %>" class="event-item">
-					<%= event.title %> <%= event.final_normal %></a>
-			</li>
+			<a href="<%= 'javascript:void(0)' %>" onclick="viewDate(<%= event.id %>)" data-event-id="<%= event.id %>" data-event-class="<%= event['class'] %>" class="event-item">
+				<li>
+					<span class="pull-left event <%= event['class'] %>"></span>&nbsp;
+					<%= event.title %> <%= event.final_normal %>
+				</li>
+			</a>
 		<% }) %>
 	</ul>
 </div>
