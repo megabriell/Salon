@@ -75,7 +75,7 @@
         });
     });
 
-    loadCSS('./plugins/datatimepicker/css/bootstrap-datetimepicker.min.css'); //css fileinput
+    loadCSS('./plugins/datatimepicker/css/bootstrap-datetimepicker.min.css'); //css
     $.getScript("./plugins/datatimepicker/js/bootstrap-datetimepicker.min.js").done(function(){
         $('#datetimepicker').datetimepicker({
             icons: {
@@ -84,38 +84,41 @@
                 up: "fa fa-arrow-up",
                 down: "fa fa-arrow-down"
             },
+            format: 'DD/MM/YYYY HH:mm',
             minDate: new Date()
         }).on('dp.change', function(e) {
             idForm.bootstrapValidator('revalidateField', 'date');
         })
+
+
+        //<!-- Script estetico -->
+            $("#service").change(function() {
+                var opt = $(this).find(":selected").val();
+                $.getJSON("./controllers/calendar_controller.php",{service:opt}).done(function(data){
+                    $('#time').text(data.Duracion+'(H:M) ->Duración aproximada');
+                });
+            });
+            $('#datetimepicker').datetimepicker().on('dp.change', function(e){
+                var inpt1 = $('#date').val().split(" "),
+                inpt2 = $('#time').text().split("("),
+                inpt2 = inpt2[0].split(":");
+
+                var date = inpt1[0].split("/"),
+                time = inpt1[1],
+                newtime = date[2]+'-'+date[1]+'-'+date[0] +' '+time,
+                dataTime = new Date(newtime);
+
+                dataTime.setMinutes(dataTime.getMinutes() + ( inpt2[0]*60 + (inpt2[1]*1) )) ;
+                var datestring = dataTime.getDate()
+                    + "/" + (dataTime.getMonth()+1)
+                    + "/" + dataTime.getFullYear()
+                    + " " +dataTime.getHours() + ":" + dataTime.getMinutes();
+                $('#time2').text(datestring +' ->Finaliza');
+            });
+        //<!-- Script estetico -->
+    
     });
 
-
-    //<!-- Script estetico -->
-        $("#service").change(function() {
-            var opt = $(this).find(":selected").val();
-            $.getJSON("./controllers/calendar_controller.php",{service:opt}).done(function(data){
-                $('#time').text(data.Duracion+'(H:M) ->Duración aproximada');
-            });
-        });
-        $('#datetimepicker').datetimepicker().on('dp.change', function(e){
-            var inpt1 = $('#date').val().split(" "),
-            inpt2 = $('#time').text().split("("),
-            inpt2 = inpt2[0].split(":");
-
-            var date = inpt1[0].split("/"),
-            time = inpt1[1],
-            newtime = date[2]+'-'+date[1]+'-'+date[0] +' '+time,
-            dataTime = new Date(newtime);
-
-            dataTime.setMinutes(dataTime.getMinutes() + ( inpt2[0]*60 + (inpt2[1]*1) )) ;
-            var datestring = dataTime.getDate()
-                + "-" + (dataTime.getMonth()+1)
-                + "-" + dataTime.getFullYear()
-                + " " +dataTime.getHours() + ":" + dataTime.getMinutes();
-            $('#time2').text(datestring +' ->Finaliza');
-        });
-    //<!-- Script estetico -->
 /*
 $('#datetimepicker').datetimepicker().on('dp.change', function(e){console.log('ola')});
 var today = new Date('2017-01-26 04:00');
