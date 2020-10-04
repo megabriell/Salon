@@ -36,13 +36,13 @@
 
 	function rolSis($value){
 		switch ($value) {
-			case '1':
+			case 1:
 			$estado = 'Administrador';
 			break;
-			case '2':
+			case 2:
 			$estado = 'Estilista';
 			break;
-			case '3':
+			case 3:
 			$estado = 'Cliente';
 			break;
 			default:
@@ -70,7 +70,7 @@
 	function stateColorVar5($value){//estado 5 variables
 		switch ($value) {
 			case 0:
-				$estado = 'event-warning';//pendiente
+				$estado = 'event-info';//pendiente
 				break;
 			case 1:
 				$estado = 'event-success';//completado
@@ -78,11 +78,11 @@
 			case 2:
 				$estado = 'event-important';//Cancelado
 				break;
-			case 2:
+			case 3:
 				$estado = 'event-special';//Pospuesto
 				break;
 			default:
-				$estado = 'event-info';
+				$estado = 'event-warning';
 				break;
 		}
 		return $estado;
@@ -99,7 +99,7 @@
 			case 2:
 				$estado = 'Cancelado';
 				break;
-			case 2:
+			case 3:
 				$estado = 'Pospuesto';
 				break;
 			default:
