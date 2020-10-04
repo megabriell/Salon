@@ -14,7 +14,7 @@
         modal_type:'ajax',    
 
         //obtenemos los eventos de la base de datos
-        events_source: './controllers/calendar_controller.php', 
+        events_source: './controllers/calendar_controller.php',
 
         // mostramos el calendario en el mes
         view: 'month',
