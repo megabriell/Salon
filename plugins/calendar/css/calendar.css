@@ -114,6 +114,10 @@
 .cal-row-fluid [class*="cal-cell"].pull-right {
   float: right;
 }
+.cal-row-head{
+  height: 50px;
+  border-bottom: thin double #999;
+}
 .cal-row-head [class*="cal-cell"]:first-child,
 .cal-row-head [class*="cal-cell"] {
   min-height: auto;
@@ -254,7 +258,7 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  border-bottom: thin dashed #e1e1e1;
+  border-bottom: thin dashed #999;
 }
 #cal-day-box .cal-day-hour .day-highlight {
   height: 30px;
@@ -273,7 +277,7 @@
   position: absolute;
   width: 100%;
   margin-left: -60px;
-  z-index: -1;
+  z-index: 1;
 }
 #cal-day-box .day-event {
   max-width: 200px;
@@ -320,7 +324,7 @@
   -webkit-box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.4);
   box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.4);
   border-radius: 8px;
-  border: 1px solid #ffffff;
+  //border: 1px solid #ffffff;
 }
 .event-block {
   display: block;
@@ -484,15 +488,17 @@ span[data-cal-date]:hover {
 #cal-slide-content {
   padding: 20px;
   color: #ffffff;
-  background-color: steelblue;
+  background-color: #699fcc96;
+  border-radius: 0 0 10px 10px;
 }
 #cal-slide-tick {
   background-image: url("../img/tick.png?2");
 }
 #cal-slide-content a.event-item {
-  color: #ffffff;
+  color: #1c1919;
   font-weight: normal;
   line-height: 22px;
+  font-size: 14px;
 }
 .events-list {
   max-height: 47px;
