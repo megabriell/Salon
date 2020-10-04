@@ -41,20 +41,6 @@
         // Definimos un ancho del 100% a nuestro calendario
         width: '100%',
 
-        onAfterEventsLoad: function(events)
-        {
-            if(!events)
-            {
-                return;
-            }
-            var list = $('#eventlist');
-            list.html('');
-            $.each(events, function(key, val)
-            {
-                var temp = $(document.createElement('li')).html('<a href="' + val.url + '" id="sdfsdfs">' + val.title + '</a>').appendTo(list);
-            });
-        },
-
         onAfterViewLoad: function(view)
         {
             $('.page-header h2').text(this.getTitle());
@@ -97,8 +83,18 @@
         calendar.view();
     });
     //#######################   End script of caledar  #######################
-
-
+    function viewDate(id){
+        var modal = $('#events-modal'),
+        modal_body = modal.find('.modal-body')
+        $.ajax({
+            url: './controllers/calendar_controller.php?id_event='+id,
+            dataType: "html", async: false, success: function(data) {
+                modal_body.html(data);
+                modal.modal('show');
+            }
+        });
+        
+    }
     function edit(id){
         $.post("./views/date/edit.php?",{id:id}).done(function( data ){$('#subContent').html(data);});
     }
