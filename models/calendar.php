@@ -27,7 +27,19 @@ class Calendar
 		$this->data = array();
 	}
 
-	public function getCalendar($id):?array
+	public function getCalendar():?array
+	{
+		$rows = $this->db->get_results("SELECT T0.Id_Agenda, T0.Fecha, T0.Comentario, T0.Estado,
+			CONCAT(T1.Nombre, ' ',T1.Apellido) AS Estilista,
+			T2.Descripcion as Servicio, T2.Duracion
+			FROM agenda T0
+			INNER JOIN usuario T1 ON (T1.Id_Usuario = T0.Id_Estilista)
+			INNER JOIN servicios T2 ON (T2.Id_Servicio = T0.Id_Servicio) ");
+		if ( !$rows ) return NULL;
+		return $rows;
+	}
+
+	public function getCalendarByUser($id):?array
 	{
 		if( isIntN($id) ){
 			$rows = $this->db->get_results("SELECT T0.Id_Agenda, T0.Fecha, T0.Comentario, T0.Estado,
@@ -37,6 +49,23 @@ class Calendar
 				INNER JOIN usuario T1 ON (T1.Id_Usuario = T0.Id_Estilista)
 				INNER JOIN servicios T2 ON (T2.Id_Servicio = T0.Id_Servicio)
 				WHERE T0.Id_Cliente = '$id' ");
+			if ( !$rows ) return NULL;
+			return $rows;
+		}else{
+			return NULL;
+		}
+	}
+
+	public function getCalendarByEvent($id):?OBJECT
+	{
+		if( isIntN($id) ){
+			$rows = $this->db->get_row("SELECT T0.Id_Agenda, T0.Fecha, T0.Comentario, T0.Estado,
+				CONCAT(T1.Nombre, ' ',T1.Apellido) AS Estilista,
+				T2.Descripcion as Servicio, T2.Duracion
+				FROM agenda T0
+				INNER JOIN usuario T1 ON (T1.Id_Usuario = T0.Id_Estilista)
+				INNER JOIN servicios T2 ON (T2.Id_Servicio = T0.Id_Servicio)
+				WHERE T0.Id_Agenda = '$id' ");
 			if ( !$rows ) return NULL;
 			return $rows;
 		}else{
