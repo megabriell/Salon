@@ -937,8 +937,7 @@ if(!String.prototype.formatNum) {
 
 		var ifrm = null;
 		if(self.options.modal_type == "iframe") {
-			ifrm = $(document.createElement("iframe"))
-				.attr({
+			ifrm = $(document.createElement("iframe")).attr({
 					width:       "100%",
 					frameborder: "0"
 				});
