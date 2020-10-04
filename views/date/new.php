@@ -14,11 +14,10 @@
                 <form class="form-horizontal" id="dataForm" autocomplete="off">
                     <div class="box-body">
                         <div class="form-group">
-                            <span class="text-muted">Selecciones un estilista de su preferencia</span>
                             <label for="stylist" class="col-sm-3 control-label">Estilista</label>
                             <div class="col-sm-9">
                                 <select id="stylist" name="stylist" class="form-control">
-                                    <option disabled="disabled" selected="selected" value="">--Selecciona una opción--</option>
+                                    <option disabled selected hidden value="">Selecciones un estilista de su preferencia</option>
                                     <?php
                                         $rows_0 = $users->getTypeUsers(2);
                                         if ($rows_0) {
@@ -36,9 +35,8 @@
                         <div class="form-group">
                             <label for="service" class="col-sm-3 control-label">Servicio</label>
                             <div class="col-sm-9">
-                                <span class="text-muted">Selecciones el tipo de servicio que desea</span>
                                 <select id="service" name="service" class="form-control">
-                                    <option disabled="disabled" selected="selected" value="">--Selecciona una opción--</option>
+                                    <option disabled selected hidden value="">Selecciones el tipo de servicio que desea</option>
                                     <?php
                                         $rows_1 = $services->getServicesAct();
                                         if ($rows_1) {
