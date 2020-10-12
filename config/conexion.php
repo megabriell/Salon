@@ -77,6 +77,7 @@ class Conexion extends ezSQL_pdo
 	            T0.Correo AS CorreoPersonal,
 	            T0.NIT,
 	            T0.Direccion,
+	            T0.Salario,
 	            T2.Sistema,
 	            T2.Usuario,
 	            T2.Correo AS CorreAcceso,
@@ -88,13 +89,6 @@ class Conexion extends ezSQL_pdo
 	            WHERE T0.Id_Usuario = '$id' ";
 	        $row = $this->get_row($query0);
 	        if ( $row ) {
-	        	if ($row->Sistema == 1) {
-		        	$label = 'Entrenador';
-		        }elseif ($row->Sistema == 2) {
-		        	$label = 'Alumno';
-		        }else{
-		        	$label = 'Sin acceso';
-		        }
 		        $array['Nombre'] = $row->Nombre;
 		        $array['Apellido'] = $row->Apellido;
 		        $array['NIT'] = $row->NIT;
@@ -102,8 +96,9 @@ class Conexion extends ezSQL_pdo
 		        $array['Telefono'] = $row->Telefono;
 		        $array['CorreoP'] = $row->CorreoPersonal;
 		        $array['CorreoA'] = $row->CorreAcceso;
-		        $array['sistema'] = $label;
+		        $array['sistema'] = $row->Sistema;
 		        $array['Usuario'] = $row->Usuario;
+		        $array['Salario'] = $row->Salario;
 		        $array['imgPerfil'] = ( !empty($row->Img_Perfil) )? $row->Img_Perfil : 'default-avatar.png';
 		        $array['imgPortada'] = $row->Img_Portada;
 		    }else{
