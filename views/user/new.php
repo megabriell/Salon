@@ -67,6 +67,14 @@
                                         <input type="text" class="form-control" id="nit" name="nit" placeholder="NIT (Opcional)" maxlength="12">
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="salary" class="col-sm-2 control-label">Salario</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="salary" name="salary" placeholder="Salario Q (Opcional)" step="any" maxlength="10">
+                                    </div>
+                                </div>
+
                                 <ul class="list-inline pull-right">
                                     <li><button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancelar</button></li>
                                     <li><button type="button" class="btn btn-primary next-step">Siguiente</button></li>
