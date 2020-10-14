@@ -53,6 +53,17 @@ class Cache{
 		fclose($fp);
 		return true;
 	}
+
+	public function clear($filename){
+		$filename = $this->cachedir.$filename.".tmp";
+		if (file_exists($filename)) {
+			unlink($filename);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }
 
 ?>
