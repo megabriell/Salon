@@ -989,7 +989,7 @@ if(!String.prototype.formatNum) {
 					})
 					.data('handled.bootstrap-calendar', true).data('handled.event-id', event.id);
 			}
-			modal.modal('show');
+			modal.modal({keyboard: true, backdrop:true});
 		});
 	};
 
