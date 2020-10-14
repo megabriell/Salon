@@ -17,31 +17,31 @@
 <!-- AdminLTE App -->
 <script src="./template/js/app.js"></script>
 <!-- bootstrapvalidator -->
-<script src="../plugins/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="./plugins/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 <!-- Formato number -->
-<script src="../plugins/jquery-number-master/jquery.number.min.js"></script>
+<script src="./plugins/jquery-number-master/jquery.number.min.js"></script>
 
 <!-- Datatable -->
-<link rel="stylesheet" href="../plugins/datatables/css/dataTables.bootstrap.min.css">
-<link rel="stylesheet" href="../plugins/datatables/css/responsive.bootstrap.min.css">
-<link rel="stylesheet" href="../plugins/datatables/css/dataTable.Welmaster.css">
-<script src="../plugins/datatables/js/jquery.dataTables.min.js"></script>
-<script src="../plugins/datatables/js/dataTables.bootstrap.min.js"></script>
-<script src="../plugins/datatables/js/dataTables.responsive.min.js"></script>
-<script src="../plugins/datatables/js/responsive.bootstrap.min.js"></script>
-<script src="../plugins/datatables/js/accent-neutralise.js"></script>
-<script src="../plugins/datatables/js/sum.js"></script>
-<script src="../plugins/datatables/js/dataTable.Welmaster.js"></script>
+<link rel="stylesheet" href="./plugins/datatables/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="./plugins/datatables/css/responsive.bootstrap.min.css">
+<link rel="stylesheet" href="./plugins/datatables/css/dataTable.Welmaster.css">
+<script src="./plugins/datatables/js/jquery.dataTables.min.js"></script>
+<script src="./plugins/datatables/js/dataTables.bootstrap.min.js"></script>
+<script src="./plugins/datatables/js/dataTables.responsive.min.js"></script>
+<script src="./plugins/datatables/js/responsive.bootstrap.min.js"></script>
+<script src="./plugins/datatables/js/accent-neutralise.js"></script>
+<script src="./plugins/datatables/js/sum.js"></script>
+<script src="./plugins/datatables/js/dataTable.Welmaster.js"></script>
 
 <!-- Jquery-confirm-->
-<link rel="stylesheet" href="../plugins/Jquery-confirm/jquery-confirm.min.css">
-<script src="../plugins/Jquery-confirm/jquery-confirm.min.js"></script>
+<link rel="stylesheet" href="./plugins/Jquery-confirm/jquery-confirm.min.css">
+<script src="./plugins/Jquery-confirm/jquery-confirm.min.js"></script>
 
 <!-- moment -->
-<script type="text/javascript" src="../plugins/moment/moment.min.js"></script>
+<script type="text/javascript" src="./plugins/moment/moment.min.js"></script>
 
 <!-- Scroll to element -->
-<script type="text/javascript" src="../plugins/jquery.scrollTo/jquery.scrollTo.js"></script>
+<script type="text/javascript" src="./plugins/jquery.scrollTo/jquery.scrollTo.js"></script>
 
 <script type="text/javascript">
 	jQuery.event.special.touchstart = {

@@ -1,8 +1,8 @@
-<a href="../home/" class="logo">
+<a href="./home/" class="logo">
 	<span class="logo-mini">
-		<img src="../misc/img/sistema/<?php echo $infoCompany['imgSegundaria'] ?>" alt="logo" title="<?php echo $infoCompany['Empresa']?>" width="45px">
+		<img src="./misc/img/sistema/<?php echo $infoCompany['imgSegundaria'] ?>" alt="logo" title="<?php echo $infoCompany['Empresa']?>" width="45px">
 	</span>
-	<span class="logo-lg"> <img src="../misc/img/sistema/<?php echo $infoCompany['imgPrincipal']?>" alt="logo" title="<?php echo $infoCompany['Empresa']?>" width="180px">
+	<span class="logo-lg"> <img src="./misc/img/sistema/<?php echo $infoCompany['imgPrincipal']?>" alt="logo" title="<?php echo $infoCompany['Empresa']?>" width="180px">
 	</span>
 </a>
 
@@ -20,17 +20,17 @@
 			<!-- Menú de la cuenta de usuario -->
 			<li class="dropdown user user-menu">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><!-- Botón de cambio de menú -->
-					<img src="../misc/img/usuario/<?php echo $infoUser['imgPerfil']?>" class="user-image" alt="User Image"><!-- La imagen del usuario en la barra de navegación -->
+					<img src="./misc/img/usuario/<?php echo $infoUser['imgPerfil']?>" class="user-image" alt="User Image"><!-- La imagen del usuario en la barra de navegación -->
 					<!-- Hidden-xs oculta el nombre de usuario en dispositivos pequeños para que solo aparezca la imagen. -->
 					<span class="hidden-xs"> <?php echo $infoUser['Nombre'].' '.$infoUser['Apellido']?> </span>
 				</a>
 
 				<ul class="dropdown-menu">
 					<li class="user-header bg-red" style="background: url('../misc/img/portada/<?php echo $infoUser['imgPortada']?>') center center; background-size: cover;"><!-- La imagen del usuario en el menú -->
-						<img src="../misc/img/usuario/<?php echo $infoUser['imgPerfil']?>" class="img-circle" alt="User Image"/>
+						<img src="./misc/img/usuario/<?php echo $infoUser['imgPerfil']?>" class="img-circle" alt="User Image"/>
 						<p><strong>
 							<?php echo $infoUser['Nombre'].' '.$infoUser['Apellido']
-							.'<br>'.$infoUser['sistema'].' '.$infoUser['CorreoA'];?><br>
+							.'<br>'.rolSis($infoUser['sistema']).' '.$infoUser['CorreoA'];?><br>
 							<small>
 							Mi codigo de usuario: <?php echo $_session['idEmployee'];?>
 							</small>

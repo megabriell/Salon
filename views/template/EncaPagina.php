@@ -8,7 +8,7 @@
     </h1>
     <ol class="breadcrumb">
         <li>
-            <img src="../misc/img/sistema/<?php echo $infoCompany['imgSegundaria']?>" height="10px" style="vertical-align: baseline !important; filter: gray; /* IE6-9 */ -webkit-filter: grayscale(1);  filter: grayscale(1);">
+            <img src="./misc/img/sistema/<?php echo $infoCompany['imgSegundaria']?>" height="10px" style="vertical-align: baseline !important; filter: gray; /* IE6-9 */ -webkit-filter: grayscale(1);  filter: grayscale(1);">
             <?php echo $infoCompany['Empresa']?>
         </li>
         <li>
