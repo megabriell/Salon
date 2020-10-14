@@ -178,7 +178,7 @@ function tableAdvanced(element,inputHead,ajax,option,inputSelect,IdReset,sumCol=
 
 //simple tabla con formato DataTable 
 //funcion Tabla_Simple(IdTabla,Columa_a_sumar,optciones[info,paginacion,tamano_tabla],IdBotonReset)
-function Tabla_Simple(element, sum=null, option, IdReset=null,report=false,titlePage){
+function Tabla_Simple(element, sum=null, option, report=false,titlePage){
 
     var tabla = $(element).DataTable({
         pagingType: "numbers",
@@ -208,7 +208,7 @@ function Tabla_Simple(element, sum=null, option, IdReset=null,report=false,title
         if (titlePage) {
             titleExport = titlePage;
         }else{
-            titleExport = 'Asahi';
+            titleExport = 'Reporte';
         }
         //Constructor Buttons 
         new $.fn.dataTable.Buttons( tabla, {
