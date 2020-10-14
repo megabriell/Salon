@@ -7,6 +7,29 @@
  * @copyright Copyright (c) 2020, Manuel Gabriel | WELMASTER
  *
 **/
+	
+	function sumMDate($dataTime, $time):String //Date ad time to sum
+	{
+		$result = '';
+		if ( !empty($dataTime) && !empty($time) ) {
+			$times = explode(":", $time);//split string
+			$addMinutes = ( ($times[0]*60)+ ($times[1]*1) );//convert hour in minutes
+			$date = new DateTime($dataTime);
+			$date->add(new DateInterval('PT' . $addMinutes . 'M'));
+			$result = $date->format('Y-m-d H:i:s');
+		}
+		return $result;
+	}
+
+	function formatDateTime($dataTime, $format):String //Date ad time to sum
+	{
+		$result = '';
+		if ( !empty($dataTime) && !empty($format) ) {
+			$date = new DateTime($dataTime);
+	    	$result = $date->format($format);
+		}
+		return $result;
+	}
 
 	function isAlphanumeric($string):bool
 	{
@@ -67,22 +90,55 @@
 		return $estado;
 	}
 
+	function reserveVar2($value){//estado 2 variables
+		switch ($value) {
+			case 0:
+			$estado = 'Pendiente a facturar';
+			break;
+			case 1:
+			$estado = 'Facturado';
+			break;
+			case 2:
+			$estado = 'Cancelado';
+			break;
+			default:
+			$estado = 'No Definido';
+			break;
+		}
+		return $estado;
+	}
+
+	function itemVar2($value){//Tipo articulo 2 variables
+		switch ($value) {
+			case 1:
+			$estado = 'Producto';
+			break;
+			case 2:
+			$estado = 'Servicio';
+			break;
+			default:
+			$estado = 'No Definido';
+			break;
+		}
+		return $estado;
+	}
+
 	function stateColorVar5($value){//estado 5 variables
 		switch ($value) {
 			case 0:
 				$estado = 'event-info';//pendiente
 				break;
 			case 1:
-				$estado = 'event-success';//completado
-				break;
-			case 2:
-				$estado = 'event-important';//Cancelado
-				break;
-			case 3:
 				$estado = 'event-special';//Pospuesto
 				break;
+			case 2:
+				$estado = 'event-success';//completado
+				break;
+			case 3:
+				$estado = 'event-important';//Cancelado
+				break;
 			default:
-				$estado = 'event-warning';
+				$estado = 'event-warning';//No definido
 				break;
 		}
 		return $estado;
@@ -91,19 +147,40 @@
 	function stateVar5($value){//estado 5 variables
 		switch ($value) {
 			case 0:
-				$estado = 'pendiente';
+				$estado = 'Pendiente';
 				break;
 			case 1:
-				$estado = 'completado';
+				$estado = 'Pospuesto';
 				break;
 			case 2:
-				$estado = 'Cancelado';
+				$estado = 'Completado';
 				break;
 			case 3:
-				$estado = 'Pospuesto';
+				$estado = 'Cancelado';
 				break;
 			default:
 				$estado = 'No Definido';
+				break;
+		}
+		return $estado;
+	}
+
+	function textColor($value){//estado 5 variables
+		switch ($value) {
+			case 0:
+				$estado = '#1e90ff';//pendiente
+				break;
+			case 1:
+				$estado = '#ffe6ff';//Pospuesto
+				break;
+			case 2:
+				$estado = '#006400';//completado
+				break;
+			case 3:
+				$estado = '#ad2121';//Cancelado
+				break;
+			default:
+				$estado = '#e3bc08';//No definido
 				break;
 		}
 		return $estado;
