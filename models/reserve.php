@@ -1,0 +1,228 @@
+<?php
+/**
+ * 
+ * Clase para obtner informacion de los productos resercados
+ *  
+ * @author Manuel Gabriel <ingmanuelgabriel@gmail.com|ingmanuelgabriel@hotmail.com>
+ * @copyright Copyright (c) 2020, Manuel Gabriel | WELMASTER
+ *
+ *
+**/
+
+include_once dirname(__file__,2)."/config/conexion.php";
+class Reserve
+{
+	private $db;
+	private $data;//array of form post
+	public $message;//message of result
+	public $type;//type of menssage: red|green|orange|blue|purple|dark
+	public $time;//set stopwatch
+
+	function __construct()
+	{
+		$this->db   = new Conexion();
+		$this->message = '';
+		$this->type = 'green';
+		$this->time = true;
+		$this->data = array();
+	}
+
+	public function getReserve($id=null):?array
+	{
+		if (!empty($id)) {
+			$where = "WHERE T0.Id_Cliente = '$id'";
+		}else{
+			$where = "";
+		}
+		$rows = $this->db->get_results("SELECT T0.Id_Reserva, T0.Cantidad, T0.Fecha,
+			T0.Estado,
+			CONCAT(T1.Nombre,' ',T1.Apellido) as Cliente,
+			T2.Descripcion
+			FROM reserva T0
+			INNER JOIN usuario T1 ON (T0.Id_Cliente = T1.Id_Usuario)
+			INNER JOIN producto T2 ON (T0.Id_Producto = T2.Id_Producto)
+			$where ");
+		if ( !$rows ) return NULL;
+		return $rows;
+	}
+
+	public function getReserveById($id):?OBJECT
+	{
+		if( isIntN($id) ){
+			$row = $this->db->get_row("SELECT * FROM reserva
+				WHERE Id_Reserva = '$id' ");
+			if (!$row) return NULL;
+			return $row;
+		}else{
+			return NULL;
+		}
+	}
+
+	//valida que ningun campo este vacio, aplica formato correspondiente a cada campo
+	public function validData($post,$option=null):bool 
+	{
+		if( !empty($option) ){
+			if ( empty($post['id']) ) {//valida que el campo Id tenga un valor
+				$this->message = '<strong>Error [1006]</strong>: Los datos no fueron procesados correctamente. Notifique el error.';
+				$this->type = 'red';
+				$this->time = false;
+				return false;
+			}
+			$this->data['Id'] = (isIntN( $post['id']) )? $this->db->escape($post['id']) :'';
+		}
+		$this->data['client'] = ( !empty($post['client']) )? $this->db->escape($post['client']) : '' ;
+		$this->data['product'] = ( !empty($post['product']) )? $this->db->escape($post['product']) : '' ;
+		$this->data['quantity'] = ( !empty($post['quantity']) )? $this->db->escape($post['quantity']) : '';
+
+		foreach ($this->data as $key => $value) {
+			if (empty($value)) {
+				break;
+				$this->message = '<strong>Error [1001]</strong>: Un campo del formulario esta vació o no cumple con el formato correcto. Revise los valores ingresados';
+				$this->type = 'red';
+				return false;
+			}
+		}
+		if (isset($post['state'])) {
+			$this->data['state'] = ( $post['state'] )? 1 : 0;
+		}
+
+		if ( !empty($option) ) {
+			return $this->editData($this->data); //Update User
+		}else{
+			return $this->newData($this->data) ;//New User
+		}
+	}
+
+	private function newData($insert):bool
+	{
+		$query1 = "INSERT INTO reserva
+			(Id_Reserva, Id_Cliente, Id_Producto, Cantidad, Fecha, Estado) 
+			VALUES
+			(NULL,'".$insert['client']."','".$insert['product']."','".$insert['quantity']."',NOW(), '1' )";	
+		if ( $this->db->query($query1) ) {//guarda informacion de empleado
+			$result = true;
+		}else{
+			$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.';
+			$this->type = 'red';
+			$result = false;
+		}
+		return $result;
+	}
+/*
+	private function setUpdate($array):bool
+	{
+		$stored = $this->getProductById($array['Id']);
+		$set =  '';
+		$set2 =  '';
+
+		if ($stored->Descripcion != $array['descripction']) {
+			$set .= "Descripcion = '".$array['descripction']."',";
+		}
+		if ($stored->Id_Categoria != $array['IdCategory']) {
+			$set .= "Id_Categoria = '".$array['IdCategory']."',";
+		}
+		if ($stored->Id_Proveedor != $array['IdProvider']) {
+			$set .= "Id_Proveedor = '".$array['IdProvider']."',";
+		}
+		if ($stored->Precio != $array['price']) {
+			$set .= "Precio = '".$array['price']."',";
+			$set2 .= "Precio = '".$array['price']."',";
+		}
+		if ($stored->Costo != $array['cost']) {
+			$set .= "Costo = '".$array['cost']."',";
+			$set2 .= "Costo = '".$array['cost']."',";
+		}
+		if ($stored->Stock != $array['stock']) {
+			$set .= "Stock = '".$array['stock']."',";
+			$set2 .= "Cantidad = '".$array['stock']."',";
+		}
+		if ($stored->Estado != $array['state']) {
+			$set .= "Estado = '".$array['state']."',";
+		}
+		$set = trim($set, ',');//Elimina el ultimo caracter definido ','
+		$set2 = trim($set2, ',');//Elimina el ultimo caracter definido ','
+
+		$this->data = array();//reset array
+		$this->data['set'] = $set;
+		$this->data['set2'] = $set2;
+
+		if ( empty($set) ) {
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	private function editData($array):bool
+	{
+		if( $this->setUpdate($array) ){//verifica si hay cambios para aplicar
+				$query0 = "UPDATE producto  
+					SET ".$this->data['set']."
+					WHERE Id_Producto = '".$array['Id']."' ";
+				if($this->db->query($query0)){
+					if (!empty($this->data['set2'])) {
+						$query1 = "INSERT INTO ingreso_producto
+							(Id_Ingreso_Producto, Id_Producto, Costo, Precio, Cantidad, Fecha) 
+							VALUES
+							(NULL,'".$array['Id']."','".$array['cost']."','".$array['price']."','".$array['stock']."', NOW() )" ;
+						$this->db->query($query1);
+					}
+					$result = true;
+				}else{
+					$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.';
+					$this->type = 'red';
+					$result = false;
+				}
+				//$this->db->debug();
+		}else{
+			
+			$this->message = 'No se ha detectado ningun cambio';
+			$this->type = 'orange';
+			$result = false;
+		}
+		return $result;
+	}*/
+
+	private function deleteItem( $id ):bool
+	{
+		if ( isIntN($id) ) {
+			$query0 = "DELETE FROM reserva WHERE Id_Reserva = '$id' ";
+			if( $this->db->query($query0) ){
+				$result = true;
+			}else{
+				$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.';
+				$this->type = 'red';
+				$result = false;
+			}
+		}else{
+			$this->message = '<strong>Error [1006]</strong>: Los datos no fueron procesados correctamente. Notifique el error.';
+			$this->type = 'red';
+			$this->time = false;
+			$result = false;
+		}
+		return $result;
+	}
+
+	public function changeState($id,$option=null):bool
+	{
+		if ( isIntN($id) ) {
+			$query0 = "UPDATE reserva 
+				SET Estado = $option
+				WHERE Id_Reserva = '$id' ";
+			if( $this->db->query($query0) ){
+				$result = true;
+			}else{
+				$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.';
+				$this->type = 'red';
+				$result = false;
+			}
+		}else{
+			$this->message = '<strong>Error [1006]</strong>: Los datos no fueron procesados correctamente. Notifique el error.';
+			$this->type = 'red';
+			$this->time = false;
+			$result = false;
+		}
+		return $result;
+	}
+}
+?>
