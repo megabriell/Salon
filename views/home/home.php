@@ -7,7 +7,8 @@
                 
             </div>
             <div class="box-body" id="box_body">
-                <
+                <?php
+                ?>
             </div>
         </div>
     </div>
