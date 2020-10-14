@@ -35,6 +35,36 @@
 		});";
 	}
 
+	//Request: creacion de nuevo usuario
+	if(isset($_POST['register']))
+	{
+		header("content-type: application/javascript");//tipo de respuesta devuelta: javascript
+		if($users->validData2($_POST)){
+			$contentMessage = 'El usuario se ha creado correctamente';
+			$typeMessage = $users->type;
+		}else{
+			if (!empty($users->message)) {
+				$contentMessage = $users->message;
+				$typeMessage = $users->type;
+			}else{
+				$contentMessage = '<strong>Error [1005]</strong>: se produjo un error al procesar los datos. Intentelo de nuevo.';
+				$typeMessage = 'red';
+			}
+		}
+		$timeMessage = ($users->time)? "autoClose: 'Ok|10000'," : '';
+		echo "$('#userForm').bootstrapValidator('resetForm',true); ";
+		echo "$.alert({
+			title: false,
+			content: '".$contentMessage."',
+			".$timeMessage."
+			type: '".$typeMessage."',
+			typeAnimated: true,
+			buttons: {
+				Ok: function () {}
+				}
+		});";
+	}
+
 	//Request: editar usuario
 	if(isset($_POST['edit']))
 	{

@@ -27,19 +27,17 @@ class User
 		$this->data = array();
 	}
 
-	public function getTypeUsers($type):?array
+	public function getTypeUsers($type=null):?array
 	{	
-		if( isIntN($type) ){
-			$rows = $this->db->get_results("SELECT T0.Id_Usuario, T0.Nombre, T0.Apellido, T0.Telefono, T0.Correo, T0.NIT, T0.Direccion
-				FROM usuario T0 
-				INNER JOIN usuario_acceso T1 ON (T0.Id_Usuario = T1.Id_Usuario)
-				INNER JOIN usuario_config T2 ON (T1.Id_Usuario_Acceso = T2.Id_Usuario_Acceso) 
-				WHERE T1.Sistema = '$type' AND T2.Estado = 1 ");
-			if ( !$rows ) return NULL;
-			return $rows;
-		}else{
-			return NULL;
-		}
+		$where = (isIntN($type))? "WHERE T1.Sistema = '".$type."'" : '';
+		$rows = $this->db->get_results("SELECT T0.Id_Usuario, T0.Nombre, T0.Apellido, T0.Telefono, T0.Correo, T0.NIT, T0.Direccion
+			FROM usuario T0 
+			INNER JOIN usuario_acceso T1 ON (T0.Id_Usuario = T1.Id_Usuario)
+			INNER JOIN usuario_config T2 ON (T1.Id_Usuario_Acceso = T2.Id_Usuario_Acceso) 
+			$where ");
+		if ( !$rows ) return NULL;
+		return $rows;
+		
 	}
 
 	//Trae todos los usuarios registrados
@@ -57,7 +55,7 @@ class User
 	public function getUserById($id):?OBJECT
 	{
 		if( isIntN($id) ){
-			$row = $this->db->get_row("SELECT T1.Id_Usuario, T1.Nombre, T1.Apellido, T1.Telefono, T1.Correo AS CorreoP, T1.NIT, T1.Direccion, T0.Id_Usuario_Acceso, T0.Usuario, T0.Correo AS CorreoU, T0.Sistema
+			$row = $this->db->get_row("SELECT T1.Id_Usuario, T1.Nombre, T1.Apellido, T1.Telefono, T1.Correo AS CorreoP, T1.NIT, T1.Direccion, T1.Salario, T0.Id_Usuario_Acceso, T0.Usuario, T0.Correo AS CorreoU, T0.Sistema
 			FROM usuario_acceso T0
 			INNER JOIN usuario T1 ON (T0.Id_Usuario = T1.Id_Usuario)
 				WHERE T0.Id_Usuario_Acceso = '$id' ");
@@ -73,8 +71,8 @@ class User
 	public function getEmployeeById( $id ):?OBJECT
 	{
 		if( isIntN($id) ){
-			$row = $this->db->get_row("SELECT T0.Id_Usuario, T0.Nombre, T0.Apellido, T0.Telefono, T0.Correo AS CorreoP,
-			T0.NIT, T0.Direccion, T1.Id_Usuario_Acceso, T1.Usuario, T1.Correo AS CorreoU, T1.Sistema
+			$row = $this->db->get_row("SELECT T0.Id_Usuario, T0.Nombre, T0.Apellido, T0.Telefono, T0.Correo AS CorreoP, T0.NIT, T0.Direccion, T0.Salario,
+				T1.Id_Usuario_Acceso, T1.Usuario, T1.Correo AS CorreoU, T1.Sistema
 			FROM usuario T0 
 			INNER JOIN usuario_acceso T1 ON (T0.Id_Usuario = T1.Id_Usuario)
 				WHERE T0.Id_Usuario = '$id' ");
@@ -155,6 +153,7 @@ class User
 
 		$this->data['nit'] = (!empty($post['nit']))? upperCase($this->db->escape( $post['nit'] )) : '';
 		$this->data['address'] = (!empty($post['address']))? camelCase($this->db->escape( $post['address'] )) : '';
+		$this->data['salary'] = (!empty($post['salary']))? $this->db->escape( $post['salary'] ) : 0;
 
 		if ( isset($this->data['Id'])  && isset($this->data['IdUser']) ) {
 			return $this->editUser($this->data) ; //Update User
@@ -169,9 +168,9 @@ class User
 	{
 		if ( !$this->isDuplicate($insert['user']) && !$this->isDuplicate($insert['emailU']) ) { //Valida que el correo o usuario no exista(repetido)
 			$query1 = "INSERT INTO usuario
-			(Id_Usuario, Nombre, Apellido, NIT, Telefono, Correo, Direccion) 
+			(Id_Usuario, Nombre, Apellido, NIT, Telefono, Correo, Direccion, Salario) 
 			VALUES
-			(NULL,'".$insert['name']."','".$insert['lastName']."','".$insert['nit']."','".$insert['phone']."','".$insert['emailP']."','".$insert['address']."' )";	
+			(NULL,'".$insert['name']."','".$insert['lastName']."','".$insert['nit']."','".$insert['phone']."','".$insert['emailP']."','".$insert['address']."', '".$insert['salary']."' )";	
 			if ( $this->db->query($query1) ) {//guarda informacion de empleado
 				$Last_Id = $this->db->insert_id;
 
@@ -202,6 +201,7 @@ class User
 					$result = false;
 				}
 			}else{
+				//$this->db->debug();
 				$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.';
 				$this->type = 'red';
 				$result = false;
@@ -237,6 +237,9 @@ class User
 		}
 		if ($stored->Direccion != $array['address']) {
 			$set .= "T0.Direccion = '".$array['address']."',";
+		}
+		if ($stored->Salario != $array['salary']) {
+			$set .= "T0.Salario = '".$array['salary']."',";
 		}
 		if ($stored->Usuario != $array['user']) {
 			if ( !$this->isDuplicate($array['user'])) {
@@ -361,4 +364,86 @@ class User
 		return $result;
 	}
 
+
+
+	/**#############################	Registro de usuario 	#########################**/
+	//valida que ningun campo este vacio, aplica formato correspondiente a cada campo
+	public function validData2($post):bool 
+	{
+		
+	$this->data['pass'] = ( !empty($post['pass']) && $post['pass'] === $post['confirPass'] )? password_hash($this->db->escape($post['pass']), PASSWORD_DEFAULT) : '';
+
+		$this->data['name'] = ( !empty($post['name']) )? camelCase( $this->db->escape($post['name']) ) : '' ;
+		$this->data['lastName'] = ( !empty($post['lName']) )? camelCase( $this->db->escape($post['lName']) ) : '';
+		$this->data['user'] = ( !empty($post['user']) )? upperCase($this->db->escape($post['user'])) : '';
+		$this->data['emailU'] = ( !empty($post['emailU']) )? lowerCase( $this->db->escape($post['emailU']) ) : '';
+		
+		foreach ($this->data as $key => $value) {
+			if (empty($value)) {
+				break;
+				$this->message = '<strong>Error [1001]</strong>: Un campo del formulario esta vació o no cumple con el formato correcto. Revise los valores ingresados';
+				$this->type = 'red';
+				return false;
+			}
+		}
+		return $this->registUser($this->data);//New User		
+	}
+
+	//Crea un nuevo usuario
+	private function registUser($insert):bool
+	{
+		if ( !$this->isDuplicate($insert['user']) && !$this->isDuplicate($insert['emailU']) ) { //Valida que el correo o usuario no exista(repetido)
+			$query1 = "INSERT INTO usuario
+			(Id_Usuario, Nombre, Apellido,Telefono,Correo) 
+			VALUES
+			(NULL,'".$insert['name']."','".$insert['lastName']."', '','' )";	
+			if ( $this->db->query($query1) ) {//guarda informacion de empleado
+				$Last_Id = $this->db->insert_id;
+
+				$query2 = "INSERT INTO usuario_acceso
+				(Id_Usuario_Acceso, Id_Usuario, Usuario, Correo, Contrasena, Sistema)
+				VALUES
+				(NULL, '$Last_Id', '".$insert['user']."', '".$insert['emailU']."', '".$insert['pass']."', '3') ";	
+
+				if ( $this->db->query($query2) ) {//guarda datos de acceso para empleado
+					$Last_Id = $this->db->insert_id;
+					$query3 = "INSERT INTO usuario_config
+					(Id_Config_Usuario, Id_Usuario_Acceso, Img_Perfil, Img_Portada, Estado)
+					VALUES
+					(NULL, $Last_Id, '', '', 1) ";
+					if ( $this->db->query($query3) ) {//guarda datos de configuracion de usuario
+						$idUsuarioAcceso = $this->db->insert_id;
+						$this->db->query("INSERT INTO permiso
+							(Id_Permiso, Id_Pagina, Id_Usuario_Acceso)
+							VALUES
+							(NULL,'5','$idUsuarioAcceso'),
+							(NULL,'6','$idUsuarioAcceso'),
+							(NULL,'10','$idUsuarioAcceso')
+							");
+						$result = true;
+					}else{
+						$this->message = '<strong>Advertencia [1501]</strong>: Algunos datos complemetarios no fueron guaradados. Notifique el error.';
+						$this->type = 'orange';
+						$this->time = false;
+						$result = false;
+					}
+				}else{
+					$this->message = '<strong>Error [1004]</strong>: Los datos fueron guardados parciamente. Notifique el error.';
+					$this->type = 'red';
+					$this->time = false;
+					$result = false;
+				}
+			}else{
+				//$this->db->debug();
+				$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.';
+				$this->type = 'red';
+				$result = false;
+			}
+		}else{
+			$this->message = '<strong>Error [1002]</strong>: El usuario/correo ya existe, ingresa un valor distinto.';
+			$this->type = 'red';
+			$result = false;
+		}
+		return $result;
+	}
 }
