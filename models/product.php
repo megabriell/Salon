@@ -29,13 +29,13 @@ class Product
 
 	public function getProductsAct():?array
 	{
-		$rows = $this->db->get_results("SELECT T0.Id_Producto, T0.Descripcion, T0.Costo, T0.Precio, T0.Stock, T0.Estado,
+		$rows = $this->db->get_results("SELECT T0.Id_Producto, T0.Descripcion, T0.Costo, T0.Precio, T0.Stock,
 			T1.Descripcion AS Categoria,
 			T2.Descripcion AS Proveedor
 			FROM producto T0
 			INNER JOIN categoria T1 ON (T1.Id_Categoria = T0.Id_Categoria)
 			INNER JOIN proveedor T2 ON (T2.Id_Proveedor = T0.Id_Proveedor)
-			WHERE Estado = 1 ");
+			WHERE T0.Estado = 1 ");
 		if ( !$rows ) return NULL;
 		return $rows;
 	}
@@ -50,6 +50,25 @@ class Product
 			INNER JOIN proveedor T2 ON (T2.Id_Proveedor = T0.Id_Proveedor) ");
 		if ( !$rows ) return NULL;
 		return $rows;
+	}
+
+	public function getProductByDesc($value):?array
+	{
+		$serch = $this->db->escape($value);
+		if( !empty($serch) ){
+			$rows = $this->db->get_results("SELECT T0.Id_Producto, T0.Descripcion, T0.Costo, T0.Precio, T0.Stock,
+				T1.Descripcion AS Categoria,
+				T2.Descripcion AS Proveedor
+				FROM producto T0
+				INNER JOIN categoria T1 ON (T1.Id_Categoria = T0.Id_Categoria)
+				INNER JOIN proveedor T2 ON (T2.Id_Proveedor = T0.Id_Proveedor)
+				WHERE T0.Descripcion LIKE '%" .$serch. "%'
+				AND T0.Estado = 1  LIMIT 6");
+			if ( !$rows ) return NULL;
+			return $rows;
+		}else{
+			return NULL;
+		}
 	}
 
 	public function getProductById($id):?OBJECT
@@ -110,6 +129,12 @@ class Product
 			VALUES
 			(NULL,'".$insert['IdCategory']."','".$insert['IdProvider']."','".$insert['descripction']."','".$insert['cost']."','".$insert['price']."','".$insert['stock']."', '1' )";	
 		if ( $this->db->query($query1) ) {//guarda informacion de empleado
+			$Last_Id = $this->db->insert_id;//Obtinee Id de producto ingresado
+			$query2 = "INSERT INTO ingreso_producto
+				(Id_Ingreso_Producto, Id_Producto, Costo, Precio, Cantidad, Fecha) 
+				VALUES
+				(NULL,'".$Last_Id."','".$insert['cost']."','".$insert['price']."','".$insert['stock']."', NOW() )";
+			$this->db->query($query2);	
 			$result = true;
 		}else{
 			$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.';
@@ -123,6 +148,7 @@ class Product
 	{
 		$stored = $this->getProductById($array['Id']);
 		$set =  '';
+		$set2 =  '';
 
 		if ($stored->Descripcion != $array['descripction']) {
 			$set .= "Descripcion = '".$array['descripction']."',";
@@ -135,19 +161,25 @@ class Product
 		}
 		if ($stored->Precio != $array['price']) {
 			$set .= "Precio = '".$array['price']."',";
+			$set2 .= "Precio = '".$array['price']."',";
 		}
 		if ($stored->Costo != $array['cost']) {
 			$set .= "Costo = '".$array['cost']."',";
+			$set2 .= "Costo = '".$array['cost']."',";
 		}
 		if ($stored->Stock != $array['stock']) {
 			$set .= "Stock = '".$array['stock']."',";
+			$set2 .= "Cantidad = '".$array['stock']."',";
 		}
 		if ($stored->Estado != $array['state']) {
 			$set .= "Estado = '".$array['state']."',";
 		}
 		$set = trim($set, ',');//Elimina el ultimo caracter definido ','
+		$set2 = trim($set2, ',');//Elimina el ultimo caracter definido ','
+
 		$this->data = array();//reset array
 		$this->data['set'] = $set;
+		$this->data['set2'] = $set2;
 
 		if ( empty($set) ) {
 			return false;
@@ -163,6 +195,13 @@ class Product
 					SET ".$this->data['set']."
 					WHERE Id_Producto = '".$array['Id']."' ";
 				if($this->db->query($query0)){
+					if (!empty($this->data['set2'])) {
+						$query1 = "INSERT INTO ingreso_producto
+							(Id_Ingreso_Producto, Id_Producto, Costo, Precio, Cantidad, Fecha) 
+							VALUES
+							(NULL,'".$array['Id']."','".$array['cost']."','".$array['price']."','".$array['stock']."', NOW() )" ;
+						$this->db->query($query1);
+					}
 					$result = true;
 				}else{
 					$this->message = '<strong>Error [1003]</strong>: Los datos no fueron guardados debido a un erro interno. Intentelo de nuevo.';

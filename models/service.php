@@ -41,6 +41,21 @@ class Service
 		return $rows;
 	}
 
+	public function getServiceByDesc($value):?array
+	{
+		$serch = $this->db->escape($value);
+		if( !empty($serch) ){
+			$rows = $this->db->get_results("SELECT T0.Id_Servicio, T0.Descripcion, T0.Costo, T0.Precio
+				FROM servicios T0
+				WHERE T0.Descripcion LIKE '%" .$serch. "%'
+				AND T0.Estado = 1  LIMIT 6");
+			if ( !$rows ) return NULL;
+			return $rows;
+		}else{
+			return NULL;
+		}
+	}
+
 	public function getServiceById($id):?OBJECT
 	{
 		if( isIntN($id) ){
@@ -95,7 +110,7 @@ class Service
 		$query1 = "INSERT INTO servicios
 			(Id_Servicio, Descripcion, Precio, Costo, Duracion, Estado) 
 			VALUES
-			(NULL,'".$insert['descripction']."','".$insert['cost']."','".$insert['price']."','".$insert['duration']."', '1' )";	
+			(NULL,'".$insert['descripction']."','".$insert['price']."','".$insert['cost']."','".$insert['duration']."', '1' )";	
 		if ( $this->db->query($query1) ) {//guarda informacion de empleado
 			$result = true;
 		}else{
