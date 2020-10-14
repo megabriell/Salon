@@ -18,7 +18,6 @@
 
     <link rel="stylesheet" href="../../plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../template/css/AdminLTE.min.css">
-    
 
 </head>
 <body class="login-page">
@@ -44,6 +43,7 @@
 
             <button type="submit" class="btn btn-block btn-default" name="Iniciar" id="Iniciar">Iniciar</button>
         </form>
+        <a class="btn btn-block btn-default text-center" href="../register/register">Registrarse</a>
     </div>
 
     <script src="../../plugins/jQuery/jquery-3.2.1.min.js"></script>
