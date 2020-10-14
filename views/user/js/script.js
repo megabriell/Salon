@@ -54,6 +54,13 @@
                     }
                 }
             },
+            salary: {
+                validators: {
+                    numeric: {
+                        message : 'Introduze un valor valido'
+                    }
+                }
+            },
             phone: {
                 validators: {
                     notEmpty: {
