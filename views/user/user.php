@@ -28,7 +28,7 @@
                 <table id="tableUser" class="table table-bordered table-hover" width="100%" style="display: none;">
                     <thead>
                         <tr>
-                            <td>Codigo Usuario</td>
+                            <td>Codigo</td>
                             <td>Nombre</td>
                             <td>Usuario</td>
                             <td>Correo Electronico</td>
